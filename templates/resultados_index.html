@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Resultados{% endblock %}
+{% block content %}
+<div class="card shadow-sm">
+  <div class="card-body">
+    <h1 class="h4 mb-3">Resultados por Encuesta</h1>
+    <table class="table table-striped align-middle">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Título</th>
+          <th class="text-end">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for e in encuestas %}
+        <tr>
+          <td>{{ e.id }}</td>
+          <td>{{ e.titulo }}</td>
+          <td class="text-end">
+            <a href="{{ url_for('resultados.ver_resultados', id_encuesta=e.id) }}"
+               class="btn btn-primary btn-sm">Ver Resultados</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

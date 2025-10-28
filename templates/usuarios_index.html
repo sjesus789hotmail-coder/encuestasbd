@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Usuarios{% endblock %}
+{% block content %}
+<div class="card shadow-sm">
+  <div class="card-body">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h1 class="h4 m-0">Lista de Usuarios</h1>
+      <a href="{{ url_for('usuarios.usuarios_add') }}" class="btn btn-primary">Agregar Usuario</a>
+    </div>
+
+    <table class="table table-striped align-middle">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Correo</th>
+          <th>Rol</th>
+          <th class="text-end">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for u in usuarios %}
+        <tr>
+          <td>{{ u.id }}</td>
+          <td>{{ u.nombre }}</td>
+          <td>{{ u.correo }}</td>
+          <td>{{ u.rol }}</td>
+          <td class="text-end">
+            <a href="{{ url_for('usuarios.usuarios_edit', id=u.id) }}" class="btn btn-warning btn-sm">Editar</a>
+            <a onclick="return confirm('¿Seguro que deseas eliminar este usuario?')"
+               href="{{ url_for('usuarios.usuarios_delete', id=u.id) }}"
+               class="btn btn-danger btn-sm">Eliminar</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

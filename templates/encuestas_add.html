@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% if encuesta %}
+    {% set page_title = "Editar Encuesta" %}
+{% else %}
+    {% set page_title = "Agregar Encuesta" %}
+{% endif %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block content %}
+<h1>{{ page_title }}</h1>
+<form method="POST">
+    <div class="mb-3">
+        <label for="titulo" class="form-label">Título</label>
+        <input type="text" class="form-control" id="titulo" name="titulo" value="{{ encuesta.titulo if encuesta else '' }}" required>
+    </div>
+    <div class="mb-3">
+        <label for="descripcion" class="form-label">Descripción</label>
+        <textarea class="form-control" id="descripcion" name="descripcion" rows="3" required>{{ encuesta.descripcion if encuesta else '' }}</textarea>
+    </div>
+    <button type="submit" class="btn btn-success">{{ "Actualizar" if encuesta else "Guardar" }}</button>
+    <a href="{{ url_for('encuestas.encuestas_index') }}" class="btn btn-secondary">Cancelar</a>
+</form>
+{% endblock %}

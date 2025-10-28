@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}Resultados - {{ encuesta.titulo }}{% endblock %}
+
+{% block content %}
+<h1 class="mb-3">Resultados de: {{ encuesta.titulo }}</h1>
+<p>{{ encuesta.descripcion }}</p>
+
+<!-- Tabla de promedios -->
+<div class="card shadow-sm mt-4">
+  <div class="card-body">
+    <table class="table table-striped align-middle m-0">
+      <thead>
+        <tr>
+          <th>Pregunta</th>
+          <th>Promedio</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for p in preguntas %}
+        <tr>
+          <td>{{ p.texto_pregunta }}</td>
+          <td>{{ "%.2f"|format(p.promedio if p.promedio else 0) }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Botones para exportar -->
+<div class="d-flex gap-2 mt-3 mb-4">
+  <a href="{{ url_for('resultados.export_csv', id_encuesta=encuesta.id) }}" class="btn btn-success">
+    Exportar CSV
+  </a>
+  <a href="{{ url_for('resultados.export_pdf', id_encuesta=encuesta.id) }}" class="btn btn-danger">
+    Exportar PDF
+  </a>
+</div>
+
+<!-- Gráfico -->
+<div class="card p-3 shadow-sm">
+  <canvas id="chartResultados"></canvas>
+</div>
+
+<!-- Librería Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- Este script usa JSON.parse para evitar errores de sintaxis -->
+<script type="application/javascript">
+document.addEventListener("DOMContentLoaded", function() {
+  // Estas dos líneas son seguras: convierten listas Python → JSON → JavaScript
+  const etiquetas = JSON.parse('{{ preguntas | map(attribute="texto_pregunta") | list | tojson | safe }}');
+  const valores = JSON.parse('{{ preguntas | map(attribute="promedio") | list | tojson | safe }}');
+
+  // Crear gráfico de barras
+  const ctx = document.getElementById("chartResultados");
+  new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: etiquetas,
+      datasets: [{
+        label: "Promedio por pregunta",
+        data: valores.map(v => v || 0),
+        backgroundColor: "rgba(54, 162, 235, 0.7)",
+        borderColor: "rgba(54, 162, 235, 1)",
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: { beginAtZero: true }
+      }
+    }
+  });
+});
+</script>
+{% endblock %}

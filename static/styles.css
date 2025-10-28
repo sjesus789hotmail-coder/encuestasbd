@@ -1,0 +1,28 @@
+body {
+    background-image: url("https://wallpapers.com/images/hd/darling-in-the-franxx-lovely-couple-o31g3xt2x8baqsm1.jpg");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    font-family: Arial, sans-serif;
+}
+
+.navbar {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.container h1 {
+    font-weight: bold;
+}
+
+.table {
+    background: white !important;
+}
+
+.card {
+    border-radius: 12px;
+}
+
+.btn {
+    border-radius: 10px;
+}
